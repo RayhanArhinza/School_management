@@ -1,0 +1,30 @@
+# app/views/tagihans/index.xlsx.axlsx
+wb = xlsx_package.workbook
+
+wb.styles do |style|
+  header_style = style.add_style(
+    b: true, 
+    bg_color: 'DDDDDD', 
+    alignment: { horizontal: :center }
+  )
+  
+  wb.add_worksheet(name: 'Tagihan Records') do |sheet|
+    # Add headers
+    sheet.add_row [
+      'Nama', 
+      'Biaya', 
+      'Tanggal Pembayaran', 
+      'Status Pembayaran', 
+    ], style: header_style
+    
+    # Add data rows
+    tagihans.each do |tagihan|
+      sheet.add_row [
+        tagihan.nama, 
+        tagihan.biaya, 
+        tagihan.tanggal_pembayaran, 
+        tagihan.status, 
+      ]
+    end
+  end
+end

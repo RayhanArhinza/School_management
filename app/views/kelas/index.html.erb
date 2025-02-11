@@ -1,0 +1,189 @@
+<nav class="flex mb-6" aria-label="Breadcrumb">
+  <ol class="inline-flex items-center space-x-1 md:space-x-2">
+    <li class="inline-flex items-center">
+      <a href="" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+        <i class="fas fa-school mr-2"></i>
+        School Management
+      </a>
+    </li>
+    <li aria-current="page">
+      <div class="flex items-center">
+        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Class Management</span>
+      </div>
+    </li>
+  </ol>
+</nav>
+<div class="bg-white rounded-lg shadow p-4 sm:p-6">
+  <!-- Flash Messages for Notifications -->
+  <% flash.each do |type, message| %>
+    <div id="notification" class="mb-4 p-4 rounded-lg <%= type == 'notice' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+      <%= message %>
+    </div>
+  <% end %>
+
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+    <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Kelas Management</h1>
+    <button onclick="openModal('newKelasModal')" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center justify-center">
+      <i class="fas fa-plus mr-2"></i> New Class
+    </button>
+  </div>
+
+<!-- Filter Form -->
+<div class="mb-4">
+  <%= form_with(url: kelas_path, method: :get, local: true, class: "flex gap-4") do |f| %>
+    <div class="flex-grow">
+      <%= f.label :nama_kelas, "Nama Kelas", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :nama_kelas, Kela.pluck(:nama_kelas).uniq, { include_blank: "All Kelas" }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+    </div>
+    <div class="flex-grow">
+      <%= f.label :guru_id, "Wali Kelas", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :guru_id, Guru.all.collect { |guru| [guru.user.name, guru.id] }, { include_blank: "All Wali Kelas" }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+    </div>
+    
+    <!-- Wrapper untuk tombol -->
+    <div class="flex items-end gap-2">
+      <%= f.submit "Filter", class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+      <%= link_to 'Reset', kelas_path, class: "px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400 focus:outline-none" %>
+    </div>
+  <% end %>
+</div>
+
+
+
+  <div class="overflow-x-auto -mx-4 sm:mx-0">
+    <div class="inline-block min-w-full align-middle">
+      <div class="overflow-hidden border border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Kelas</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wali Kelas</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @kelas.each do |kela| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= kela.id %></td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= kela.nama_kelas %></td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <%= kela.guru&.nama || 'No Guru Assigned' %> <!-- Tampilkan nama guru -->
+                </td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex space-x-3">
+                    <button onclick="openModal('editKelasModal<%= kela.id %>')" class="text-blue-600 hover:text-blue-900">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="openModal('deleteKelasModal<%= kela.id %>')" class="text-red-600 hover:text-red-900">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Edit Kelas Modal -->
+              <div id="editKelasModal<%= kela.id %>" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-4 sm:p-5 border w-full max-w-sm sm:max-w-md shadow-lg rounded-md bg-white">
+                  <div class="mt-3">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Edit Kelas</h3>
+                    <%= form_with(model: kela, local: true, class: "mt-4") do |f| %>
+                      <div class="mt-2 px-4 sm:px-7 py-3">
+                        <%= f.label :nama_kelas, "Nama Kelas", class: "block text-sm font-medium text-gray-700" %>
+                        <%= f.text_field :nama_kelas, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+                      </div>
+                      <div class="mt-2 px-4 sm:px-7 py-3">
+                        <%= f.label :guru_id, "Wali Kelas", class: "block text-sm font-medium text-gray-700" %>
+                       <%= f.select :guru_id, Guru.all.collect { |guru| [guru.user.name, guru.id] }, { include_blank: true }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+                      </div>
+                      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 py-3">
+                        <%= f.submit "Update", class: "w-full sm:w-auto px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+                        <button type="button" onclick="closeModal('editKelasModal<%= kela.id %>')" class="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none">
+                          Cancel
+                        </button>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delete Confirmation Modal -->
+              <div id="deleteKelasModal<%= kela.id %>" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-4 sm:p-5 border w-full max-w-sm sm:max-w-md shadow-lg rounded-md bg-white">
+                  <div class="mt-3">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Confirm Delete</h3>
+                    <div class="mt-4 px-4 sm:px-7 py-3 text-center">
+                      <p>Are you sure you want to delete this kelas?</p>
+                      <p class="text-sm text-gray-500 mt-1">This action cannot be undone.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 py-3">
+                      <%= button_to kela_path(kela), method: :delete, class: "w-full sm:w-auto px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" do %>
+                        Delete
+                      <% end %>
+                      <button type="button" onclick="closeModal('deleteKelasModal<%= kela.id %>')" class="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Kelas Modal -->
+<div id="newKelasModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+  <div class="relative top-20 mx-auto p-4 sm:p-5 border w-full max-w-sm sm:max-w-md shadow-lg rounded-md bg-white">
+    <div class="mt-3">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Create New Kelas</h3>
+      <%= form_with(model: Kela.new, local: true, class: "mt-4") do |f| %>
+        <div class="mt-2 px-4 sm:px-7 py-3">
+          <%= f.label :nama_kelas, "Nama Kelas", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :nama_kelas, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500", placeholder: "Nama Kelas" %>
+        </div>
+        <div class="mt-2 px-4 sm:px-7 py-3">
+          <%= f.label :guru_id, "Wali Kelas", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.select :guru_id, Guru.all.collect { |guru| [guru.nama, guru.id] }, { include_blank: true }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 py-3">
+          <%= f.submit "Create", class: "w-full sm:w-auto px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+          <button type="button" onclick="closeModal('newKelasModal')" class="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none">
+            Cancel
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+
+  // Auto-hide notifications after 3 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    const notification = document.getElementById('notification');
+    if (notification) {
+      setTimeout(function() {
+        notification.style.transition = 'opacity 0.5s ease-in-out';
+        notification.style.opacity = '0';
+        setTimeout(function() {
+          notification.remove();
+        }, 500);
+      }, 3000);
+    }
+  });
+</script>

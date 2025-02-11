@@ -1,0 +1,2 @@
+module GurusHelper
+end

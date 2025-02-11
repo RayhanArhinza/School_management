@@ -1,0 +1,346 @@
+<!-- Di bagian head atau sebelum closing body tag, tambahkan CDN Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+<div class="max-w-7xl mx-auto">
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Total Siswa -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Jumlah Siswa</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2"><%= @jumlah_siswa %></p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg">
+                        <i class="fas fa-user-graduate text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <p class="text-sm text-gray-500">Total siswa aktif</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Guru -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Jumlah Guru</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2"><%= @jumlah_guru %></p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg">
+                        <i class="fas fa-chalkboard-teacher text-2xl text-green-600"></i>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <p class="text-sm text-gray-500">Total guru aktif</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Kelas -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Jumlah Kelas</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2"><%= @jumlah_kelas %></p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-lg">
+                        <i class="fas fa-school text-2xl text-purple-600"></i>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <p class="text-sm text-gray-500">Total kelas aktif</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Role -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Jumlah Role</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2"><%= @jumlah_role %></p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-lg">
+                        <i class="fas fa-users-cog text-2xl text-yellow-600"></i>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <p class="text-sm text-gray-500">Total role pengguna</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Biaya SPP -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Biaya SPP</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2"><%= number_to_currency(@total_biaya_spp, unit: "Rp ") %></p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-lg">
+                        <i class="fas fa-money-bill-wave text-2xl text-red-600"></i>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <p class="text-sm text-gray-500">Total pembayaran SPP</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Barang -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Jumlah Barang</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2"><%= @jumlah_inventari %></p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-lg">
+                        <i class="fas fa-box text-2xl text-yellow-600"></i>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <p class="text-sm text-gray-500">Total Barang</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-8 mt-8 border border-blue-100">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-2xl font-semibold text-gray-800">Distribusi Barang Inventaris</h3>
+                <p class="text-sm text-gray-600 mt-1">Overview persebaran barang inventaris</p>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-2">
+                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                <div class="text-sm text-gray-600">Total Jenis Barang</div>
+                <div class="text-xl font-semibold mt-1" id="totalItems">-</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                <div class="text-sm text-gray-600">Total Unit</div>
+                <div class="text-xl font-semibold mt-1" id="totalUnits">-</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                <div class="text-sm text-gray-600">Update Terakhir</div>
+                <div class="text-xl font-semibold mt-1" id="lastUpdate">-</div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+            <div style="height: 300px;">
+                <canvas id="inventoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+<div class="bg-gradient-to-br from-white to-green-50 rounded-xl shadow-lg p-8 mt-8 border border-green-100">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-800">Distribusi Tagihan</h3>
+            <p class="text-sm text-gray-600 mt-1">Overview status pembayaran tagihan</p>
+        </div>
+        <div class="bg-green-50 rounded-lg p-2">
+            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm4 5a.5.5 0 11-1 0 .5.5 0 011 0z" />
+            </svg>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div class="text-sm text-gray-600">Total Tagihan</div>
+            <div class="text-xl font-semibold mt-1" id="totalBills">-</div>
+        </div>
+        <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div class="text-sm text-gray-600">Total Biaya</div>
+            <div class="text-xl font-semibold mt-1" id="totalBillAmount">-</div>
+        </div>
+        <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div class="text-sm text-gray-600">Update Terakhir</div>
+            <div class="text-xl font-semibold mt-1" id="lastBillStatus">-</div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+        <div style="height: 300px;">
+            <canvas id="billingChart"></canvas>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // Get the canvas element
+        const ctx = document.getElementById('inventoryChart').getContext('2d');
+        
+        // Data from your Rails controller
+        const inventoryData = <%= raw @inventaris.to_json %>;
+        
+        // Prepare data for Chart.js
+        const labels = inventoryData.map(item => item.nama);
+        const values = inventoryData.map(item => item.total);
+        
+        // Generate beautiful pastel colors for each segment
+        const colors = inventoryData.map((_, index) => {
+            const hues = [210, 180, 150, 120, 90, 60, 30, 0, 330, 300, 270, 240];
+            return `hsla(${hues[index % hues.length]}, 70%, 75%, 0.8)`;
+        });
+        
+        // Update summary cards
+        document.getElementById('totalItems').textContent = inventoryData.length;
+        document.getElementById('totalUnits').textContent = values.reduce((a, b) => a + b, 0);
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('id-ID');
+
+        // Create the chart with enhanced styling
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: colors,
+                    borderColor: 'white',
+                    borderWidth: 2,
+                    hoverBorderColor: 'white',
+                    hoverBorderWidth: 3,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 12,
+                                family: 'system-ui'
+                            },
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map((label, i) => ({
+                                        text: `${label} (${data.datasets[0].data[i]} unit)`,
+                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                        strokeStyle: data.datasets[0].backgroundColor[i],
+                                        lineWidth: 0,
+                                        hidden: false,
+                                        index: i
+                                    }));
+                                }
+                                return [];
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        titleColor: '#333',
+                        bodyColor: '#666',
+                        borderColor: '#ddd',
+                        borderWidth: 1,
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${label}: ${value} unit (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+        
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Prepare data from Rails controller
+    const tagihans = <%= @tagihans.to_json.html_safe %>;
+
+    // Calculate total bills and total amount
+    const totalBills = tagihans.length;
+    const totalBillAmount = tagihans.reduce((sum, bill) => sum + bill.biaya, 0);
+
+    // Update summary boxes
+    document.getElementById('totalBills').textContent = totalBills;
+    document.getElementById('totalBillAmount').textContent = `Rp ${totalBillAmount.toLocaleString()}`;
+    document.getElementById('lastBillStatus').textContent = tagihans[tagihans.length - 1]?.nama || '-';
+
+    // Prepare data for pie chart
+    const billNames = tagihans.map(bill => bill.nama);
+    const billAmounts = tagihans.map(bill => bill.biaya);
+
+    // Function to generate random RGBA color
+    function getRandomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgba(${r}, ${g}, ${b}, 0.6)`;
+    }
+
+    // Generate random colors dynamically
+    const backgroundColors = billNames.map(() => getRandomColor());
+
+    // Create pie chart
+    const ctx = document.getElementById('billingChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: billNames,
+            datasets: [{
+                data: billAmounts,
+                backgroundColor: backgroundColors,
+                borderColor: 'white',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Distribusi Tagihan per Kategori'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.parsed;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${context.label}: Rp ${value.toLocaleString()} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+
+</script>
+    

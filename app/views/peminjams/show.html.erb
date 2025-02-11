@@ -1,0 +1,48 @@
+
+
+<div class="max-w-4xl mx-auto my-6 bg-white shadow-lg rounded-md p-6">
+  <h1 class="text-2xl font-semibold text-gray-900 text-center mb-6">Detail Peminjaman</h1>
+
+  
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- Buku -->
+    <div>
+      <h3 class="text-sm font-medium text-gray-700">Buku</h3>
+      <p class="mt-1 text-gray-900"><%= @peminjam.buku.judul %></p>
+    </div>
+
+    <!-- Siswa -->
+    <div>
+      <h3 class="text-sm font-medium text-gray-700">Siswa</h3>
+      <p class="mt-1 text-gray-900"><%= @peminjam.siswa.name %></p>
+    </div>
+
+    <!-- Tanggal Pinjam -->
+    <div>
+      <h3 class="text-sm font-medium text-gray-700">Tanggal Pinjam</h3>
+      <p class="mt-1 text-gray-900"><%= @peminjam.tanggal_pinjam.strftime('%d %B %Y') %></p>
+    </div>
+
+    <!-- Tanggal Kembali -->
+    <div>
+      <h3 class="text-sm font-medium text-gray-700">Tanggal Kembali</h3>
+      <p class="mt-1 text-gray-900"><%= @peminjam.tanggal_kembali.strftime('%d %B %Y') %></p>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <h3 class="text-sm font-medium text-gray-700">Status</h3>
+      <p class="mt-1 text-gray-900"><%= @peminjam.status.titleize %></p>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <!-- Tombol Edit dan Hapus -->
+    <div class="flex justify-end gap-4">
+        <%= link_to 'Kembali', peminjams_path, class: "px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600" %>
+     
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,24 @@
+<%= form_with(model: @kela, local: true) do |f| %>
+  <div class="bg-white rounded-lg shadow max-w-md mx-auto">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-xl font-semibold text-gray-800">Edit Kelas</h2>
+    </div>
+
+    <div class="p-6">
+      <div class="mb-4">
+        <%= f.label :nama_kelas, "Nama Kelas", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :nama_kelas, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :guru_id, "Wali Kelas", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :guru_id, Guru.all.collect { |guru| [guru.user.name, guru.id] }, { include_blank: true }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+      </div>
+
+      <div class="flex justify-end space-x-2">
+        <%= link_to "Back", kelas_path, class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+        <%= f.submit "Update", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium" %>
+      </div>
+    </div>
+  </div>
+<% end %>

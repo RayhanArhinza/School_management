@@ -1,0 +1,107 @@
+<!-- app/views/layouts/applicant.html.erb -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Applicant Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+
+      /* Fixed sidebar styling */
+      #sidebar {
+        height: 100%;
+        overflow-y: auto;
+        position: fixed;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      @media (max-width: 768px) {
+        #sidebar {
+          transform: translateX(-100%);
+        }
+        
+        #sidebar.active {
+          transform: translateX(0);
+        }
+      }
+
+      /* Hide scrollbar but allow scrolling */
+      #sidebar::-webkit-scrollbar {
+        display: none;
+      }
+      
+      #sidebar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Main content spacing */
+      @media (min-width: 768px) {
+        .main-content {
+          margin-left: 18rem;
+        }
+      }
+
+      /* Prevent horizontal scroll */
+      body {
+        overflow-x: hidden;
+      }
+
+      /* Smooth scroll behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100">
+    <!-- Sidebar overlay for mobile -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black opacity-50 z-20 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+    <div class="min-h-screen flex">
+      <!-- Sidebar -->
+      <%= render 'shared/sidebar' %>
+
+      <!-- Main content -->
+      <div class="flex-1 flex flex-col min-h-screen main-content">
+        <%= render 'shared/navbar' %>
+        
+        <main class="flex-1 p-4 sm:p-6">
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('hidden');
+        
+        // Toggle body scroll
+        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+      }
+
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.querySelector('[data-toggle="sidebar"]');
+        
+        if (window.innerWidth < 768 && 
+            !sidebar.contains(event.target) && 
+            !toggleBtn.contains(event.target) && 
+            sidebar.classList.contains('active')) {
+          toggleSidebar();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<div class="bg-white rounded-lg shadow p-4 sm:p-6">
+  <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">User Details</h1>
+
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Name</label>
+      <p class="mt-1 text-sm text-gray-900"><%= @user.name %></p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Email</label>
+      <p class="mt-1 text-sm text-gray-900"><%= @user.email %></p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Role</label>
+      <p class="mt-1 text-sm text-gray-900"><%= @user.role.name %></p>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to 'Back', users_path, class: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg ml-2" %>
+  </div>
+</div>

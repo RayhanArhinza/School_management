@@ -1,0 +1,32 @@
+# app/views/spps/index.xlsx.axlsx
+wb = xlsx_package.workbook
+
+wb.styles do |style|
+  header_style = style.add_style(
+    b: true, 
+    bg_color: 'DDDDDD', 
+    alignment: { horizontal: :center }
+  )
+  
+  wb.add_worksheet(name: 'SPP Records') do |sheet|
+    # Add headers
+    sheet.add_row [
+      'ID', 
+      'Tahun', 
+      'Bulan', 
+      'Status Pembayaran', 
+      'Nama Siswa'
+    ], style: header_style
+    
+    # Add data rows
+    spps.each do |spp|
+      sheet.add_row [
+        spp.id, 
+        spp.tahun, 
+        spp.bulan, 
+        spp.lunas ? 'Paid' : 'Unpaid', 
+        spp.siswa.name
+      ]
+    end
+  end
+end

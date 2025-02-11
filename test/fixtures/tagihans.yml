@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nama: MyString
+  kepemilikan: MyString
+  total: 1
+  tanggal: 2025-02-10
+  status: MyString
+
+two:
+  nama: MyString
+  kepemilikan: MyString
+  total: 1
+  tanggal: 2025-02-10
+  status: MyString

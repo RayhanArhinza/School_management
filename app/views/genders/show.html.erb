@@ -1,0 +1,18 @@
+<!-- app/views/genders/show.html.erb -->
+<div class="bg-white rounded-lg shadow p-4 sm:p-6">
+  <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Gender Details</h1>
+
+  <div class="mt-4">
+    <p class="text-sm text-gray-500">ID:</p>
+    <p class="text-lg text-gray-900"><%= @gender.id %></p>
+  </div>
+
+  <div class="mt-4">
+    <p class="text-sm text-gray-500">Name:</p>
+    <p class="text-lg text-gray-900"><%= @gender.name %></p>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to 'Back', genders_path, class: "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg" %>
+  </div>
+</div>

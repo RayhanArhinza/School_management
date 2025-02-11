@@ -1,0 +1,270 @@
+<nav class="flex mb-6" aria-label="Breadcrumb">
+  <ol class="inline-flex items-center space-x-1 md:space-x-2">
+    <li class="inline-flex items-center">
+      <a href="" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+        <i class="fas fa-school mr-2"></i>
+        School Management
+      </a>
+    </li>
+    <li aria-current="page">
+      <div class="flex items-center">
+        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Teacher Management</span>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="bg-white rounded-lg shadow p-4 sm:p-6">
+  <!-- Flash Messages for Notifications -->
+  <% flash.each do |type, message| %>
+    <div id="notification" class="mb-4 p-4 rounded-lg <%= type == 'notice' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+      <%= message %>
+    </div>
+  <% end %>
+
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+    <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Guru Management</h1>
+    <button onclick="openModal('newGuruModal')" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center">
+      <i class="fas fa-plus mr-2"></i> New Guru
+    </button>
+  </div>
+
+  <!-- Form Pencarian dan Filter -->
+  <div class="mb-6">
+    <%= form_with url: gurus_path, method: :get, local: true, class: "flex flex-col sm:flex-row gap-4" do |form| %>
+      <div class="flex-grow">
+        <%= form.text_field :search, placeholder: "Cari berdasarkan nama...", value: params[:search], class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+      </div>
+      <div class="flex-grow">
+        <%= form.select :mata_pelajaran, options_for_select(Guru.distinct.pluck(:mata_pelajaran), params[:mata_pelajaran]), { include_blank: "Pilih Mata Pelajaran" }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+      </div>
+      <div>
+        <%= form.submit "Cari", class: "w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Tabel Guru -->
+  <div class="overflow-x-auto -mx-4 sm:mx-0">
+    <div class="inline-block min-w-full align-middle">
+      <div class="overflow-hidden border border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Guru</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NUPTK</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mata Pelajaran</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+              <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @gurus.each do |guru| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= guru.id %></td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= guru.user.name %></td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= guru.NUPTK %></td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= guru.mata_pelajaran %></td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= guru.user.email %></td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <%= guru.role&.name || 'No Role' %>
+                </td>
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex space-x-3">
+                    <!-- Tombol Detail -->
+                    <%= link_to guru_path(guru), class: "text-green-600 hover:text-green-900" do %>
+                      <i class="fas fa-eye"></i>
+                    <% end %>
+
+                    <!-- Tombol Edit -->
+                    <button onclick="openModal('editGuruModal<%= guru.id %>')" class="text-blue-600 hover:text-blue-900">
+                      <i class="fas fa-edit"></i>
+                    </button>
+
+                    <!-- Tombol Hapus -->
+                    <button onclick="openModal('deleteGuruModal<%= guru.id %>')" class="text-red-600 hover:text-red-900">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Edit Guru Modal -->
+              <div id="editGuruModal<%= guru.id %>" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-4 sm:p-5 border w-full max-w-sm sm:max-w-md shadow-lg rounded-md bg-white">
+                  <div class="mt-3">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Edit Guru</h3>
+                    <%= form_with(model: guru, local: true, class: "mt-4") do |f| %>
+                      <div class="mt-2 px-4 sm:px-7 py-3">
+                        <div class="grid grid-cols-1 gap-4">
+                          <%= f.label :user_id, "Nama Guru", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.collection_select :user_id, @users, :id, :name, { selected: guru.user_id }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500", id: "guruSelect#{guru.id}" %>
+
+                          <%= f.label :NUPTK, "NUPTK", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.text_field :NUPTK, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+                          <%= f.label :nik, "NIK", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.text_field :nik, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+                          <%= f.label :tanggal_lahir, "Tanggal Lahir", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.date_field :tanggal_lahir, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+                          <%= f.label :mata_pelajaran, "Mata Pelajaran", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.text_field :mata_pelajaran, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+                          <%= f.label :no_hp, "No. HP", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.text_field :no_hp, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+                          <%= f.label :alamat, "Alamat", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.text_area :alamat, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+                          <%= f.label :email, "Email", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.email_field :email, value: guru.user.email, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500", id: "guruEmail#{guru.id}" %>
+
+                          <%= f.label :tanggal_bergabung, "Tanggal Bergabung", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.date_field :tanggal_bergabung, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+                          <%= f.label :jenis_kelamin, "Jenis Kelamin", class: "block text-sm font-medium text-gray-700" %>
+                          <%= f.collection_select :jenis_kelamin, Gender.all, :id, :name, { prompt: "Select Gender" }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+                          <%= f.hidden_field :role_id, value: 5 %>
+                        </div>
+                      </div>
+                      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 py-3">
+                        <%= f.submit "Update", class: "w-full sm:w-auto px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+                        <button type="button" onclick="closeModal('editGuruModal<%= guru.id %>')" class="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none">
+                          Cancel
+                        </button>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delete Confirmation Modal -->
+              <div id="deleteGuruModal<%= guru.id %>" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-4 sm:p-5 border w-full max-w-sm sm:max-w-md shadow-lg rounded-md bg-white">
+                  <div class="mt-3">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Confirm Delete</h3>
+                    <div class="mt-4 px-4 sm:px-7 py-3 text-center">
+                      <p>Are you sure you want to delete this guru?</p>
+                      <p class="text-sm text-gray-500 mt-1">This action cannot be undone.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 py-3">
+                      <%= button_to guru_path(guru), method: :delete, class: "w-full sm:w-auto px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" do %>
+                        Delete
+                      <% end %>
+                      <button type="button" onclick="closeModal('deleteGuruModal<%= guru.id %>')" class="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="mt-6">
+    <%= will_paginate @gurus, class: "flex justify-center space-x-2" %>
+  </div>
+</div>
+
+<!-- New Guru Modal -->
+<div id="newGuruModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+  <div class="relative top-20 mx-auto p-4 sm:p-5 border w-full max-w-sm sm:max-w-md shadow-lg rounded-md bg-white">
+    <div class="mt-3">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Create New Guru</h3>
+      <%= form_with(model: Guru.new, local: true, class: "mt-4") do |f| %>
+        <div class="mt-2 px-4 sm:px-7 py-3">
+          <div class="grid grid-cols-1 gap-4">
+            <%= f.label :user_id, "Nama Guru", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.collection_select :user_id, @users, :id, :name, { prompt: "Pilih Guru" }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500", id: "guruSelect" %>
+
+            <%= f.label :NUPTK, "NUPTK", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :NUPTK, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+            <%= f.label :nik, "NIK", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :nik, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+            <%= f.label :tanggal_lahir, "Tanggal Lahir", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.date_field :tanggal_lahir, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+            <%= f.label :mata_pelajaran, "Mata Pelajaran", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :mata_pelajaran, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+            <%= f.label :no_hp, "No. HP", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :no_hp, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+            <%= f.label :alamat, "Alamat", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_area :alamat, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+            <%= f.label :email, "Email", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.email_field :email, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500", id: "guruEmail" %>
+
+            <%= f.label :tanggal_bergabung, "Tanggal Bergabung", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.date_field :tanggal_bergabung, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+            <%= f.label :jenis_kelamin, "Jenis Kelamin", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.collection_select :jenis_kelamin, Gender.all, :id, :name, { prompt: "Select Gender" }, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+            <%= f.hidden_field :role_id, value: 5 %>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 py-3">
+          <%= f.submit "Create", class: "w-full sm:w-auto px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+          <button type="button" onclick="closeModal('newGuruModal')" class="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none">
+            Cancel
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const guruSelect = document.getElementById('guruSelect');
+    const guruEmail = document.getElementById('guruEmail');
+
+    if (guruSelect && guruEmail) {
+      guruSelect.addEventListener('change', function() {
+        const selectedUserId = this.value;
+        const selectedUser = <%= @users.to_json.html_safe %>.find(user => user.id == selectedUserId);
+        if (selectedUser) {
+          guruEmail.value = selectedUser.email;
+        }
+      });
+    }
+
+    <% @gurus.each do |guru| %>
+      const guruSelect<%= guru.id %> = document.getElementById('guruSelect<%= guru.id %>');
+      const guruEmail<%= guru.id %> = document.getElementById('guruEmail<%= guru.id %>');
+
+      if (guruSelect<%= guru.id %> && guruEmail<%= guru.id %>) {
+        guruSelect<%= guru.id %>.addEventListener('change', function() {
+          const selectedUserId = this.value;
+          const selectedUser = <%= @users.to_json.html_safe %>.find(user => user.id == selectedUserId);
+          if (selectedUser) {
+            guruEmail<%= guru.id %>.value = selectedUser.email;
+          }
+        });
+      }
+    <% end %>
+  });
+
+  function openModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+</script>

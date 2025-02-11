@@ -1,0 +1,47 @@
+<!-- app/views/bukus/show.html.erb -->
+<div class="bg-white rounded-lg shadow max-w-md mx-auto">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h2 class="text-xl font-semibold text-gray-800">Detail Buku</h2>
+  </div>
+  
+  <div class="p-6">
+    <div class="space-y-4">
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">Judul</h3>
+        <p class="mt-1 text-sm text-gray-900"><%= @buku.judul %></p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">ISBN</h3>
+        <p class="mt-1 text-sm text-gray-900"><%= @buku.isbn %></p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">Pengarang</h3>
+        <p class="mt-1 text-sm text-gray-900"><%= @buku.pengarang %></p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">Penerbit</h3>
+        <p class="mt-1 text-sm text-gray-900"><%= @buku.penerbit %></p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">Tahun Terbit</h3>
+        <p class="mt-1 text-sm text-gray-900"><%= @buku.tahun_terbit %></p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">Kategori</h3>
+        <p class="mt-1 text-sm text-gray-900"><%= @buku.category %></p>
+      </div>
+      
+
+    </div>
+
+    <div class="flex justify-end space-x-2 mt-6">
+      <%= link_to "Back", bukus_path, class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+      
+    </div>
+  </div>
+</div>

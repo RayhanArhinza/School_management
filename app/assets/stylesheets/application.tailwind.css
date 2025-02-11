@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition-all;
+  }
+  .table {
+    @apply min-w-full bg-white border border-gray-200 rounded-lg shadow-md;
+  }
+  .table th, .table td {
+    @apply px-6 py-3 text-gray-800;
+  }
+}

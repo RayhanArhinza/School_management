@@ -1,0 +1,97 @@
+<!-- app/views/shared/_sidebar.html.erb -->
+<div id="sidebar" class="bg-white text-gray-800 md:w-72 fixed md:static inset-y-0 left-0 z-30 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shadow-lg">
+  <div class="flex flex-col h-full w-72">
+    <!-- Logo/Header Section - Fixed -->
+    <div class="p-6 border-b border-gray-200 bg-white fixed w-72 z-10">
+      <a href="#" class="text-gray-800 flex items-center space-x-3 group">
+        <i class="fas fa-school text-2xl text-blue-400"></i>
+        <span class="text-xl font-semibold">International School</span>
+      </a>
+    </div>
+    
+    <!-- Navigation Section - Scrollable -->
+    <nav class="flex-1 px-3 py-4 space-y-1 mt-16 overflow-y-auto">
+      <!-- Active state menggunakan bg-blue-500/10 -->
+      <a href="<%= dashboard_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group pt-6">
+        <i class="fas fa-home text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+        <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Dashboard</span>
+      </a>
+
+      <p class="px-4  text-sm font-semibold text-gray-500 uppercase">School Management</p>
+      <a href="<%= roles_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+        <i class="fas fa-users-cog text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+        <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Role Management</span>
+      </a>
+      <a href="<%= users_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+        <i class="fas fa-user-cog text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+        <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">User Management</span>
+      </a>
+      
+      <!-- Tambahan menu dengan efek hover yang sama -->
+      <a href="<%= siswas_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+        <i class="fas fa-user-graduate text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+        <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Student Management</span>
+      </a>
+      <a href="<%= kelas_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+        <i class="fas fa-building text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+        <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Class Management</span>
+      </a>
+      
+      <a href="<%= gurus_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+        <i class="fas fa-chalkboard-teacher text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+        <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Teacher Management</span>
+      </a>
+      
+      <a href="#" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+        <i class="fas fa-calendar-alt text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+        <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Attendance</span>
+      </a>
+
+      <!-- Manajemen Keuangan -->
+      <div class="mt-4">
+        <p class="px-4 text-sm font-semibold text-gray-500 uppercase">Financial management</p>
+        <a href="<%= spps_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+          <i class="fas fa-file-invoice-dollar text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+          <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Tuition Management</span>
+        </a>
+        <a href="<%= tagihans_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+          <i class="fas fa-receipt text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+          <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Bill Management</span>
+        </a>
+      </div>
+
+      <!-- Manajemen Perpustakaan -->
+      <div class="mt-4">
+        <p class="px-4 text-sm font-semibold text-gray-500 uppercase">Library Management</p>
+        <a href="<%= bukus_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+          <i class="fas fa-book text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+          <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Book Catalog</span>
+        </a>
+        <a href="<%= peminjams_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+          <i class="fas fa-book-reader text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+          <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Book Borrowing</span>
+        </a>
+      </div>
+
+      <!-- Manajemen Inventaris -->
+      <div class="mt-4">
+        <p class="px-4 text-sm font-semibold text-gray-500 uppercase">Inventory Management</p>
+        <a href="<%= inventaris_path %>" class="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-blue-500/10 group">
+          <i class="fas fa-boxes text-gray-500 group-hover:text-blue-500 transition-colors duration-200"></i>
+          <span class="ml-3 font-medium group-hover:text-blue-500 transition-colors duration-200">Inventory of Goods</span>
+        </a>
+      </div>
+    </nav>
+    
+    <!-- Footer Section - Fixed -->
+    <div class="p-4 border-t border-gray-200 bg-white bottom-0 w-72">
+      <div class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-blue-500/10 transition duration-200">
+        <!-- Di dalam sidebar atau navbar -->
+        <%= button_to logout_path, method: :delete, class: "flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-blue-500/10 transition duration-200" do %>
+          <i class="fas fa-sign-out-alt text-gray-500"></i>
+          <span class="font-medium">Logout</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

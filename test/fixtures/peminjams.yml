@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buku: one
+  siswa: one
+  tanggal_pinjam: 2025-02-04
+  tanggal_kembali: 2025-02-04
+  status: false
+
+two:
+  buku: two
+  siswa: two
+  tanggal_pinjam: 2025-02-04
+  tanggal_kembali: 2025-02-04
+  status: false

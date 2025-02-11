@@ -1,0 +1,83 @@
+<!-- app/views/gurus/show.html.erb -->
+<div class="bg-white rounded-lg shadow p-4 sm:p-6">
+  <!-- Flash Messages for Notifications -->
+  <% flash.each do |type, message| %>
+    <div id="notification" class="mb-4 p-4 rounded-lg <%= type == 'notice' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+      <%= message %>
+    </div>
+  <% end %>
+
+  <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6">Guru Details</h1>
+
+  <% if @guru.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+      <strong class="font-bold">Error!</strong>
+      <ul>
+        <% @guru.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <p class="text-sm text-gray-500">Nama:</p>
+      <p class="text-lg text-gray-900"><%= @guru.user.name %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">NUPTK:</p>
+      <p class="text-lg text-gray-900"><%= @guru.NUPTK %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">NIK:</p>
+      <p class="text-lg text-gray-900"><%= @guru.nik %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Jenis Kelamin:</p>
+      <p class="text-lg text-gray-900"><%= @guru.gender.name %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Tanggal Lahir:</p>
+      <p class="text-lg text-gray-900"><%= @guru.tanggal_lahir.strftime("%d %B %Y") %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Mata Pelajaran:</p>
+      <p class="text-lg text-gray-900"><%= @guru.mata_pelajaran %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">No HP:</p>
+      <p class="text-lg text-gray-900"><%= @guru.no_hp %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Alamat:</p>
+      <p class="text-lg text-gray-900"><%= @guru.alamat %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Email:</p>
+      <p class="text-lg text-gray-900"><%= @guru.user.email %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Tanggal Bergabung:</p>
+      <p class="text-lg text-gray-900"><%= @guru.tanggal_bergabung.strftime("%d %B %Y") %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Role:</p>
+      <p class="text-lg text-gray-900"><%= @guru.user.role.name %></p>
+    </div>
+  </div>
+
+  <div class="mt-6 flex space-x-4 justify-end">
+    <%= link_to 'Back', gurus_path, class: "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center justify-center" %>
+  </div>
+</div>

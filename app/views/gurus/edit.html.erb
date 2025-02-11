@@ -1,0 +1,65 @@
+<!-- app/views/gurus/edit.html.erb -->
+<div class="bg-white rounded-lg shadow p-4 sm:p-6">
+  <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Edit Guru</h1>
+
+  <%= form_with(model: @guru, local: true, class: "mt-4") do |f| %>
+    <!-- Add error messages section -->
+    <% if @guru.errors.any? %>
+      <div class="bg-red-50 text-red-500 p-4 rounded-md mb-4">
+        <h2><%= pluralize(@guru.errors.count, "error") %> prohibited this guru from being saved:</h2>
+        <ul class="list-disc pl-5">
+          <% @guru.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mt-2 px-4 sm:px-7 py-3">
+      <%= f.label :id_guru, "ID Guru *", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :id_guru, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :nama, "Nama *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.text_field :nama, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :NUPTK, "NUPTK *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.text_field :NUPTK, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :nik, "NIK *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.text_field :nik, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :jenis_kelamin, "Jenis Kelamin", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.collection_select :jenis_kelamin, Gender.all, :id, :name, { prompt: "Select Gender" }, { class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" } %>
+
+      <%= f.label :tanggal_lahir, "Tanggal Lahir *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.date_field :tanggal_lahir, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :mata_pelajaran, "Mata Pelajaran *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.text_field :mata_pelajaran, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :no_hp, "No HP *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.text_field :no_hp, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :alamat, "Alamat *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.text_area :alamat, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :email, "Email *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.email_field :email, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :tanggal_bergabung, "Tanggal Bergabung *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.date_field :tanggal_bergabung, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+
+      <%= f.label :role_id, "Role *", class: "block text-sm font-medium text-gray-700 mt-2" %>
+      <%= f.collection_select :role_id, Role.all, :id, :name, { prompt: "Select Role" }, { required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" } %>
+    </div>
+
+    <div class="mt-4 px-4 sm:px-7">
+      <p class="text-sm text-gray-500">* Required fields</p>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 py-3">
+      <%= f.submit "Update", class: "w-full sm:w-auto px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+      <%= link_to 'Cancel', guru_path(@guru), class: "w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none text-center" %>
+    </div>
+  <% end %>
+</div>

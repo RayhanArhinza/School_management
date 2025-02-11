@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nama_kelas: MyString
+  wali_kelas: MyString
+
+two:
+  nama_kelas: MyString
+  wali_kelas: MyString
