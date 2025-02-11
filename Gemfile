@@ -63,7 +63,7 @@ group :test do
 end
 gem 'bcrypt', '~> 3.1.7'
 gem "tailwindcss-rails", "~> 3.2"
-gem 'will_paginate', '~> 3.3'
+gem 'will_paginate', '~> 4.0'
 
 gem 'caxlsx'
 gem 'caxlsx_rails'
