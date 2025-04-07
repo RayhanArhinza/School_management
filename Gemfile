@@ -62,7 +62,7 @@ group :test do
   gem "selenium-webdriver"
 end
 gem 'bcrypt', '~> 3.1.7'
-gem "tailwindcss-rails", "~> 3.2"
+gem "tailwindcss-rails", "~> 4.2"
 gem 'will_paginate', '~> 3.3'
 
 gem 'caxlsx'
